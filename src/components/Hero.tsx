@@ -32,7 +32,7 @@ export function Hero({ date, itemsCount, summary, isLatest = true }: Props) {
         </h1>
 
         <p
-          className="reveal mt-8 max-w-2xl text-lg leading-relaxed text-zinc-300 sm:text-xl"
+          className="reveal mt-8 max-w-2xl text-xl leading-[1.55] text-zinc-100 sm:text-2xl"
           style={{ animationDelay: "120ms" }}
         >
           {summary}
