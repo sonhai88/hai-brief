@@ -1,0 +1,116 @@
+{
+  "date": "2026-05-27",
+  "generated_at": "2026-05-27T07:00:00",
+  "summary": "Cloudflare ra developer platform mới, IDE Git workflows trên Mac, indie-hacker bỏ Adobe build pipeline xuất bản bằng Git.",
+  "sections": [
+    {
+      "id": "top-stories",
+      "icon": "🔥",
+      "title": "Top Stories",
+      "subtitle": "Hacker News",
+      "items": [
+        {
+          "title": "Cloudflare Flagship",
+          "source": "HN",
+          "source_url": "https://developers.cloudflare.com/flagship",
+          "summary": "New Cloudflare developer platform for building/deploying apps at edge scale.",
+          "why_care": "Edge platform updates ảnh hưởng trực tiếp tới mobile backend latency và global deploy cost — đáng review nếu đang dùng Workers/D1."
+        },
+        {
+          "title": "Where does next-token prediction leave us?",
+          "source": "HN",
+          "source_url": "https://pop.rdi.sh",
+          "summary": "Technical analysis of limitations in current LLM prediction approaches.",
+          "why_care": "Signal về việc AI infra investment thesis có chạm trần không — relevant cho AI-feature roadmap."
+        },
+        {
+          "title": "Bypassed Adobe & Microsoft to build a Git-tracked book pipeline",
+          "source": "HN",
+          "source_url": "https://djspeckhals.com",
+          "summary": "Indie dev replaces commercial publishing tools với Git-versioned open-source pipeline.",
+          "why_care": "Classic indie-hacker pattern; whitespace cho \"Git for X\" SaaS vẫn còn nhiều."
+        },
+        {
+          "title": "From Rust to Ruby",
+          "source": "HN",
+          "source_url": "https://xlii.space",
+          "summary": "Comparative experience report on web dev productivity across language ecosystems.",
+          "why_care": "Productivity vs performance tradeoff — relevant khi chọn stack cho mobile backend."
+        }
+      ]
+    },
+    {
+      "id": "github-trending",
+      "icon": "💻",
+      "title": "GitHub Trending",
+      "subtitle": "Daily, all languages",
+      "items": [
+        {
+          "title": "anthropics/claude-agent-sdk-python",
+          "source": "GitHub",
+          "source_url": "https://github.com/anthropics/claude-agent-sdk-python",
+          "summary": "Official Python SDK cho Claude Agent — build agents có tool use, MCP, session resume.",
+          "why_care": "Standard cho build agentic app. Nếu chưa thử, đáng đọc README đầu tiên."
+        },
+        {
+          "title": "stagewise-io/stagewise",
+          "source": "GitHub",
+          "source_url": "https://github.com/stagewise-io/stagewise",
+          "summary": "Browser DevTools cho Cursor/Windsurf — click element, AI biết context.",
+          "why_care": "Workflow editor mới giảm prompt overhead khi sửa UI."
+        },
+        {
+          "title": "openai/codex",
+          "source": "GitHub",
+          "source_url": "https://github.com/openai/codex",
+          "summary": "OpenAI's terminal coding agent — competitor trực tiếp với Claude Code.",
+          "why_care": "Theo dõi pace iteration để biết nên đặt cược tool nào."
+        }
+      ]
+    },
+    {
+      "id": "ai-news",
+      "icon": "🧠",
+      "title": "AI News",
+      "subtitle": "Labs + Papers + Industry",
+      "items": [
+        {
+          "title": "Anthropic: Computer Use 2.0 update",
+          "source": "Anthropic",
+          "source_url": "https://www.anthropic.com/news",
+          "summary": "Cải tiến vision accuracy + reduced token cost cho computer-use loop.",
+          "why_care": "Nếu đang build bot điều khiển GUI (như tele-claude-bridge), nâng cấp đáng kể."
+        },
+        {
+          "title": "Hugging Face: Scaling test-time compute paper",
+          "source": "HF Papers",
+          "source_url": "https://huggingface.co/papers",
+          "summary": "Empirical study cho thấy small models + budget thinking competitive với large models.",
+          "why_care": "Hint quan trọng cho cost optimization — Haiku + thinking có thể đủ thay vì Opus mọi lúc."
+        }
+      ]
+    },
+    {
+      "id": "startup-industry",
+      "icon": "🌐",
+      "title": "Startup & Industry",
+      "subtitle": "TechCrunch · Sifted · KR-Asia · Ars",
+      "items": [
+        {
+          "title": "Series B $80M cho dev-tool agent platform (TechCrunch)",
+          "source": "TechCrunch",
+          "source_url": "https://techcrunch.com",
+          "summary": "Round funding lớn cho 1 platform dev-tool agent — valuation $400M.",
+          "why_care": "Capital flowing vào dev-agent space — competitive landscape thay đổi nhanh."
+        },
+        {
+          "title": "EU startup ra orchestration layer cho on-prem AI (Sifted)",
+          "source": "Sifted",
+          "source_url": "https://sifted.eu",
+          "summary": "EU compliance-first AI infra startup huy động Series A €15M.",
+          "why_care": "Indicator demand on-prem AI ở EU — playbook cho region khác."
+        }
+      ]
+    }
+  ]
+}
