@@ -4,21 +4,21 @@ import { hostnameOf, slugify } from "@/lib/briefs";
 
 export function BriefSection({ section, date }: { section: TSection; date: string }) {
   return (
-    <section className="border-t border-white/5 py-12 sm:py-16">
+    <section className="border-t border-stone-200 py-12 sm:py-16">
       <header className="mb-8 flex items-baseline justify-between gap-4">
         <div>
-          <h2 className="flex items-center gap-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            <span aria-hidden className="text-[1.4em]">{section.icon}</span>
+          <h2 className="flex items-center gap-3 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+            <span aria-hidden className="text-[1.3em]">{section.icon}</span>
             {section.title}
           </h2>
           {section.subtitle && (
-            <p className="mt-1 text-sm text-zinc-500 tabular">{section.subtitle}</p>
+            <p className="mt-1 text-sm text-stone-500 tabular">{section.subtitle}</p>
           )}
         </div>
-        <span className="text-xs text-zinc-600 tabular">{section.items.length} items</span>
+        <span className="text-xs text-stone-400 tabular">{section.items.length} items</span>
       </header>
 
-      <div className="divide-y divide-white/10">
+      <div className="divide-y divide-stone-200">
         {section.items.map((item, i) => {
           const slug = slugify(item.title);
           const detailHref = item.analysis ? `/brief/${date}/${slug}` : null;
@@ -28,7 +28,7 @@ export function BriefSection({ section, date }: { section: TSection; date: strin
                 {detailHref ? (
                   <Link
                     href={detailHref}
-                    className="tactile text-xl font-semibold leading-snug text-white transition-colors hover:text-emerald-300 sm:text-2xl"
+                    className="tactile text-xl font-semibold leading-snug text-stone-900 transition-colors hover:text-emerald-800 sm:text-2xl"
                   >
                     {item.title}
                   </Link>
@@ -37,12 +37,12 @@ export function BriefSection({ section, date }: { section: TSection; date: strin
                     href={item.source_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="tactile text-xl font-semibold leading-snug text-white transition-colors hover:text-emerald-300 sm:text-2xl"
+                    className="tactile text-xl font-semibold leading-snug text-stone-900 transition-colors hover:text-emerald-800 sm:text-2xl"
                   >
                     {item.title}
                   </a>
                 )}
-                <span className="shrink-0 rounded-md border border-white/10 bg-white/[0.06] px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-200">
+                <span className="shrink-0 rounded-md border border-stone-200 bg-white px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-stone-600">
                   {item.source}
                 </span>
               </div>
@@ -51,16 +51,18 @@ export function BriefSection({ section, date }: { section: TSection; date: strin
                 href={item.source_url}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 inline-block text-sm font-medium text-emerald-400 tabular hover:text-emerald-300"
+                className="mt-2 inline-block text-sm font-medium text-emerald-700 tabular hover:text-emerald-800"
               >
                 {hostnameOf(item.source_url)} ↗
               </a>
 
-              <p className="mt-4 text-[17px] leading-[1.7] text-zinc-100">{item.summary}</p>
+              <p className="mt-4 font-serif text-[18px] leading-[1.75] text-stone-800">
+                {item.summary}
+              </p>
 
               {item.why_care && (
-                <p className="mt-4 border-l-2 border-emerald-400/60 pl-4 text-base leading-[1.65] text-zinc-200">
-                  <span className="font-semibold text-emerald-300">Why care · </span>
+                <p className="mt-4 border-l-2 border-emerald-700/50 pl-4 font-serif text-[16px] leading-[1.7] text-stone-700">
+                  <span className="font-sans font-semibold text-emerald-800">Why care · </span>
                   {item.why_care}
                 </p>
               )}
@@ -68,7 +70,7 @@ export function BriefSection({ section, date }: { section: TSection; date: strin
               {detailHref && (
                 <Link
                   href={detailHref}
-                  className="tactile mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300"
+                  className="tactile mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700 hover:text-emerald-800"
                 >
                   Đọc phân tích chi tiết
                   <span aria-hidden>→</span>

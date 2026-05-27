@@ -3,7 +3,12 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
 import { BriefSection } from "@/components/BriefSection";
-import { getBrief, listBriefDates, totalItems, listBriefMetas, formatLongDate } from "@/lib/briefs";
+import {
+  getBrief,
+  listBriefDates,
+  totalItems,
+  formatLongDate,
+} from "@/lib/briefs";
 
 export const revalidate = 60;
 
@@ -51,31 +56,38 @@ export default async function BriefPage({
       />
 
       <div className="px-6 pb-24">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-3xl">
           {brief.sections.map((s) => (
             <BriefSection key={s.id} section={s} date={brief.date} />
           ))}
 
-          {/* Navigation prev/next */}
-          <nav className="mt-16 grid grid-cols-2 gap-4 border-t border-white/5 pt-8 text-sm">
+          <nav className="mt-16 grid grid-cols-2 gap-4 border-t border-stone-200 pt-8 text-sm">
             {older ? (
               <Link
                 href={`/brief/${older}`}
-                className="tactile group rounded-xl border border-white/5 p-5 transition-colors hover:border-emerald-400/30 hover:bg-emerald-400/[0.04]"
+                className="tactile group rounded-xl border border-stone-200 bg-white p-5 transition-colors hover:border-emerald-700/40 hover:bg-emerald-50"
               >
-                <p className="text-xs uppercase tracking-[0.14em] text-zinc-500">← Older</p>
-                <p className="mt-2 text-zinc-300 group-hover:text-white tabular">{formatLongDate(older)}</p>
+                <p className="text-xs uppercase tracking-[0.14em] text-stone-500">← Older</p>
+                <p className="mt-2 text-stone-700 group-hover:text-stone-900 tabular">
+                  {formatLongDate(older)}
+                </p>
               </Link>
-            ) : <div />}
+            ) : (
+              <div />
+            )}
             {newer ? (
               <Link
                 href={`/brief/${newer}`}
-                className="tactile group rounded-xl border border-white/5 p-5 text-right transition-colors hover:border-emerald-400/30 hover:bg-emerald-400/[0.04]"
+                className="tactile group rounded-xl border border-stone-200 bg-white p-5 text-right transition-colors hover:border-emerald-700/40 hover:bg-emerald-50"
               >
-                <p className="text-xs uppercase tracking-[0.14em] text-zinc-500">Newer →</p>
-                <p className="mt-2 text-zinc-300 group-hover:text-white tabular">{formatLongDate(newer)}</p>
+                <p className="text-xs uppercase tracking-[0.14em] text-stone-500">Newer →</p>
+                <p className="mt-2 text-stone-700 group-hover:text-stone-900 tabular">
+                  {formatLongDate(newer)}
+                </p>
               </Link>
-            ) : <div />}
+            ) : (
+              <div />
+            )}
           </nav>
         </div>
       </div>
