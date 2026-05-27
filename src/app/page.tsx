@@ -23,7 +23,7 @@ export default async function HomePage() {
       <div className="px-6 pb-24">
         <div className="mx-auto max-w-4xl">
           {brief.sections.map((s) => (
-            <BriefSection key={s.id} section={s} />
+            <BriefSection key={s.id} section={s} date={brief.date} />
           ))}
         </div>
 

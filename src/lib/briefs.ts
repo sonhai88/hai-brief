@@ -7,6 +7,8 @@ export type BriefItem = {
   source_url: string;
   summary: string;
   why_care?: string;
+  /** Markdown analysis (≈300 words VN) — dịch + giải thích context + ý nghĩa cho dev. Optional. */
+  analysis?: string;
 };
 
 export type BriefSection = {
@@ -88,4 +90,47 @@ export function hostnameOf(url: string): string {
   } catch {
     return url;
   }
+}
+
+/** Slug ổn định từ title — kebab-case ASCII, bỏ dấu VN, giữ chữ số. */
+export function slugify(title: string): string {
+  return title
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/đ/gi, "d")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
+export type BriefItemEntry = {
+  item: BriefItem;
+  slug: string;
+  sectionId: string;
+  sectionTitle: string;
+};
+
+export async function getBriefItem(
+  date: string,
+  slug: string,
+): Promise<{ brief: Brief; entry: BriefItemEntry } | null> {
+  const brief = await getBrief(date);
+  if (!brief) return null;
+  for (const section of brief.sections) {
+    for (const item of section.items) {
+      if (slugify(item.title) === slug) {
+        return {
+          brief,
+          entry: { item, slug, sectionId: section.id, sectionTitle: section.title },
+        };
+      }
+    }
+  }
+  return null;
+}
+
+export function readingMinutes(text: string): number {
+  const words = text.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 220));
 }

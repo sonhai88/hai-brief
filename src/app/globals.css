@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Hai Brief — dark editorial, Kimi-tier */
 :root {
