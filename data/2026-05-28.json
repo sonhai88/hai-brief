@@ -1,0 +1,175 @@
+{
+  "date": "2026-05-28",
+  "generated_at": "2026-05-28T07:00:05",
+  "summary": "Cognition huy động $1B ở định giá $25B — AI coding tool tiếp tục hút vốn khủng. Simon Willison khẳng định Anthropic & OpenAI đã tìm thấy PMF. Anthropic mở văn phòng Seoul, mở plugins repo cho knowledge workers.",
+  "sections": [
+    {
+      "id": "top-stories",
+      "icon": "🔥",
+      "title": "Top Stories",
+      "subtitle": "Hacker News",
+      "items": [
+        {
+          "title": "I think Anthropic and OpenAI have found product-market fit",
+          "source": "HN",
+          "source_url": "https://simonwillison.net/2026/May/27/product-market-fit/",
+          "summary": "Simon Willison phân tích vì sao Anthropic & OpenAI đã chính thức đạt product-market fit sau giai đoạn dài đốt tiền.",
+          "why_care": "Tín hiệu mạnh: AI tooling không còn là hype mà đã có user trả tiền đều — nên build trên cả 2 platform.",
+          "analysis": "## Bối cảnh\n\nSimon Willison là một trong những voice uy tín nhất về LLM ứng dụng thực tế (co-creator Django, người chạy Datasette, blog phân tích AI hằng tuần). Khi anh ấy nói 'PMF', đó không phải sales pitch — đó là quan sát dựa trên data revenue + use case anh ấy thấy.\n\n## Điểm chính\n\nWillison lập luận rằng:\n- **Doanh thu Anthropic & OpenAI đều bứt phá** trong 2025-2026, không còn phụ thuộc consumer ChatGPT mà chủ yếu từ API + enterprise.\n- **Coding agents là use case chiến thắng**: Claude Code, Cursor, Cognition — tất cả đều có churn thấp và ARPU cao.\n- Khác với crypto/Web3, AI có **người trả tiền thật** (developer + enterprise) chứ không phải vòng quay đầu cơ.\n\n## Ý nghĩa cho dev VN\n\nVới project tele-claude-bridge của anh — đang build trên Claude API — đây là confirm rằng platform dependency rủi ro thấp hơn nhiều so với 6 tháng trước. Anthropic không sập, API price có thể giảm chứ khó tăng đột biến.\n\nVới mảng đầu tư: anh có thể xem các công ty bán 'AI infrastructure' (vector DB, observability, eval tools) như tier-2 picks. Tier-1 đã rõ là Anthropic/OpenAI/coding agents.\n\n## Action cho anh\n- Đọc full bài Simon Willison — ngắn nhưng có data revenue cụ thể\n- Cân nhắc build feature cross-model (Claude + GPT) cho tele-claude-bridge để đa dạng hoá risk"
+        },
+        {
+          "title": "What Apple and Google are doing to your push notifications",
+          "source": "HN",
+          "source_url": "https://www.jacquescorbytuech.com/writing/what-apple-and-google-are-doing-your-push-notifications",
+          "summary": "Bài phân tích về cách Apple & Google đang can thiệp/lọc/trì hoãn push notifications, ảnh hưởng đến app builder.",
+          "why_care": "Anh dev mobile Flutter — push notification là kênh re-engage chính. Hiểu changes để không bị silent-drop.",
+          "analysis": "## Vấn đề\n\nApple (iOS 18+) và Google (Android 15+) đang **chủ động lọc push notification** bằng các cơ chế: Focus Mode, Notification Summary (AI grouping), Priority Tiers, và silent throttling cho app gửi spam. Tác giả test với app riêng và thấy ~30-40% notification không hiển thị real-time như developer expect.\n\n## Cơ chế chi tiết\n\n- **iOS**: Focus filter + Time Sensitive flag — nếu app không khai báo đúng entitlement, notification rơi vào 'Scheduled Summary' (hiển thị 2 lần/ngày).\n- **Android**: Importance Channel + AI-based 'demote' nếu user thường swipe-away — Android tự hạ priority kênh đó.\n- **APNs/FCM** vẫn deliver, nhưng OS layer mới là người quyết định show ngay hay không.\n\n## Ý nghĩa cho dev Flutter\n\nVới project mobile anh đang làm (MONII, Sailo, etc.), cần:\n- Khai báo đúng **notification category/channel** cho từng loại (transactional vs marketing vs social)\n- Set `interruption-level` (iOS) hoặc `IMPORTANCE_HIGH` (Android) cho noti thực sự time-sensitive\n- **Đo delivery rate thực** — không chỉ dựa vào APNs/FCM ack mà phải log từ client xem user có thấy không (track open rate theo giờ)\n\nNếu app bị OS demote ngầm thì retention chart sẽ giảm dần mà không có signal rõ — đây là silent killer.\n\n## Action cho anh\n- Audit Flutter push config trong các project: dùng `flutter_local_notifications` + `firebase_messaging` có set đúng channel importance chưa\n- Implement client-side 'noti seen' tracking để biết delivery rate thực"
+        },
+        {
+          "title": "YouTube to automatically label AI-generated videos",
+          "source": "HN",
+          "source_url": "https://blog.youtube/news-and-events/improving-ai-labels-viewers-creators/",
+          "summary": "YouTube tự động gắn nhãn AI-generated cho video, áp dụng cho cả creator không tự khai báo.",
+          "why_care": "Ảnh hưởng creator dùng AI tool. C2PA + content provenance đang trở thành standard.",
+          "analysis": ""
+        },
+        {
+          "title": "Rust (and Slint) on a Jailbroken Kindle",
+          "source": "HN",
+          "source_url": "https://sverre.me/blog/rust-on-kindle/",
+          "summary": "Tutorial chạy Rust + Slint UI framework trên Kindle jailbreak. E-ink app dev với toolchain modern.",
+          "why_care": "Idea side-project hay cho devices low-power. Slint là alternative cho Flutter/Qt on embedded.",
+          "analysis": ""
+        }
+      ]
+    },
+    {
+      "id": "github-trending",
+      "icon": "💻",
+      "title": "GitHub Trending",
+      "subtitle": "Daily, all languages",
+      "items": [
+        {
+          "title": "anthropics/knowledge-work-plugins",
+          "source": "GitHub",
+          "source_url": "https://github.com/anthropics/knowledge-work-plugins",
+          "summary": "Anthropic mở repo plugins open-source cho knowledge workers dùng với Claude. +695 stars hôm nay.",
+          "why_care": "Pattern chính thức từ Anthropic về cách build plugin/skill cho Claude — template ngon cho tele-claude-bridge.",
+          "analysis": "## Anthropic chính thức push plugin ecosystem\n\nĐây là động thái lớn: Anthropic không chỉ làm model + Claude Code nữa, mà bắt đầu mở **plugin/skill ecosystem chính thức** cho knowledge work (research, writing, data analysis). Repo này chứa các plugin reference + spec.\n\n## Nội dung repo\n\n- Set plugin mẫu cho legal review, research synthesis, document analysis, meeting notes\n- Mỗi plugin có structure: `metadata.yaml` + tool definitions + prompt templates\n- Hỗ trợ cài qua Claude Code & Claude.ai (web)\n\n## Ý nghĩa cho project của anh\n\ntele-claude-bridge của anh đang là một dạng custom skill / tool layer trên Claude. Repo này cho anh:\n\n1. **Pattern chính thức** — nếu anh muốn share skill với người khác hoặc publish marketplace, follow format này sẽ tương thích lâu dài.\n2. **Inspiration use case**: knowledge work là segment Anthropic ưu tiên → anh có thể fork ý tưởng (vd: 'research synthesis' plugin) và VN-hoá cho domain riêng.\n3. **Signal về roadmap**: Anthropic đang đầu tư vào ecosystem → API/SDK sẽ ổn định dần, ít breaking change.\n\n## So với Skills hiện tại\n\nAnh đang dùng Skills system (vault_search, note_capture, reminder_*). Plugin pattern mới có thể là tầng cao hơn (đóng gói multiple skills + UI). Đáng nghiên cứu nếu muốn share workflow với team/community.\n\n## Action cho anh\n- Clone repo về xem cấu trúc 1 plugin, so với cách anh đang viết skills hiện tại\n- Nếu format khác biệt nhỏ — refactor 1 skill thử để compatible với plugin spec\n- Đợi 1-2 tháng xem có 'Plugin Marketplace' chính thức không"
+        },
+        {
+          "title": "harry0703/MoneyPrinterTurbo",
+          "source": "GitHub",
+          "source_url": "https://github.com/harry0703/MoneyPrinterTurbo",
+          "summary": "Tool tạo short video tự động bằng LLM, one-click. +1.7k stars hôm nay.",
+          "why_care": "Vertical AI content tool đang bùng nổ. Nếu anh quan tâm content creator vertical hoặc indie SaaS.",
+          "analysis": "## Vertical AI content automation\n\nMoneyPrinterTurbo là một trong những repo Python hot nhất tuần này (+1.7k stars/day). Tool gen TikTok/Shorts/Reels tự động: nhập topic → AI viết script → TTS → ghép b-roll video → render → done.\n\n## Vì sao hot\n\n- Workflow content creator đang chuyển dịch mạnh sang automation\n- Open source, chạy local (privacy + no per-video cost)\n- Hỗ trợ nhiều LLM provider (OpenAI, Claude, local models qua Ollama)\n\n## Use case cho anh\n\nVới MONII / Sailo hoặc bất kỳ product nào anh đang build cần marketing content:\n- **Auto generate demo video** cho feature mới (script demo + screen capture overlay)\n- **TikTok marketing channel** cho indie SaaS — chi phí ~0 nếu chạy local\n- Học pattern: cách họ chia pipeline thành stages (script → TTS → asset → render) khá clean, có thể tái dùng cho automation workflow khác\n\n## Cảnh báo\n\nLoại tool này có thể bị YouTube/TikTok detect là 'AI slop' và demote (xem mục Top Stories về YouTube label). Quality > quantity vẫn là rule.\n\n## Action cho anh\n- Bookmark, không cần dùng ngay\n- Nếu anh có ý tưởng content vertical (fintech tips, dev tips bằng tiếng Việt) thì đây là nền tốt để thử nghiệm"
+        },
+        {
+          "title": "Lum1104/Understand-Anything",
+          "source": "GitHub",
+          "source_url": "https://github.com/Lum1104/Understand-Anything",
+          "summary": "TypeScript tool convert codebase → interactive knowledge graph để explore + query. +4.4k stars hôm nay.",
+          "why_care": "Hữu ích để onboard codebase mới hoặc map dependency trong project lớn.",
+          "analysis": "## Code as Knowledge Graph\n\nRepo TypeScript top trending (+4.4k stars/day) — biến codebase thành **interactive knowledge graph** rồi để user query bằng natural language. Khác với Sourcegraph hay code search thông thường: nó build relationship giữa function/class/module thành graph nodes.\n\n## Cách hoạt động\n\n- Parse AST của project (multi-language)\n- Build graph: node = symbol, edge = call/import/inherit\n- LLM layer phía trên cho phép hỏi 'function X được gọi ở đâu, qua bao nhiêu layer?', 'module nào phụ thuộc vào Y?'\n- Visualize bằng web UI (D3/Cytoscape)\n\n## Use case cho anh\n\nCác project anh đang maintain (Flutter app + backend services + tele-claude-bridge) đều có depth nhất định. Tool này hữu ích khi:\n- **Onboard người mới**: cho họ explore graph thay vì đọc README dài\n- **Refactor**: biết function này impact ai trước khi đổi signature\n- **Code review**: trước khi PR, xem feature mới tạo node/edge gì\n\n## So với alternatives\n\n- **Cursor/Claude Code** đã có `@codebase` index nhưng là semantic search, không phải graph\n- **Sourcegraph** có code intelligence nhưng nặng, enterprise\n- Repo này nhẹ, self-host, open source\n\n## Action cho anh\n- Thử chạy trên 1 project Flutter của anh xem graph có hữu ích không\n- Nếu OK, integrate vào workflow review trước khi merge feature lớn"
+        },
+        {
+          "title": "shiyu-coder/Kronos",
+          "source": "GitHub",
+          "source_url": "https://github.com/shiyu-coder/Kronos",
+          "summary": "Foundation model cho ngôn ngữ thị trường tài chính. +401 stars hôm nay.",
+          "why_care": "Anh quan tâm đầu tư — domain-specific LLM cho tài chính là track đáng theo dõi.",
+          "analysis": ""
+        },
+        {
+          "title": "affaan-m/ECC",
+          "source": "GitHub",
+          "source_url": "https://github.com/affaan-m/ECC",
+          "summary": "Framework tối ưu performance cho AI agents (skills + memory). +2k stars hôm nay.",
+          "why_care": "Pattern memory/skill cho AI agents — overlap với những gì anh đang build trong tele-claude-bridge.",
+          "analysis": ""
+        },
+        {
+          "title": "p-e-w/heretic",
+          "source": "GitHub",
+          "source_url": "https://github.com/p-e-w/heretic",
+          "summary": "Hệ thống tự động bỏ restriction (jailbreak) cho LLM. +211 stars.",
+          "why_care": "Quan trọng để hiểu attack surface khi build AI product công khai.",
+          "analysis": ""
+        }
+      ]
+    },
+    {
+      "id": "ai-news",
+      "icon": "🧠",
+      "title": "AI News",
+      "subtitle": "Labs + Papers + Industry",
+      "items": [
+        {
+          "title": "Anthropic appoints KiYoung Choi as Representative Director of Korea ahead of Seoul office opening",
+          "source": "Anthropic",
+          "source_url": "https://www.anthropic.com/news/kiyoung-choi-representative-director-anthropic-korea",
+          "summary": "Anthropic chính thức mở văn phòng Seoul, bổ nhiệm KiYoung Choi làm Representative Director Korea.",
+          "why_care": "Anthropic mở rộng Á — sắp có pricing/support khu vực + có thể là tín hiệu vào VN/SEA tiếp theo.",
+          "analysis": "## Anthropic vào Á chính thức\n\nSau khi mở Tokyo, Anthropic tiếp tục mở **Seoul office** với KiYoung Choi (cựu Google Korea exec) làm Rep Director. Đây là bước thứ hai trong chiến lược Á-Thái Bình Dương sau Nhật.\n\n## Vì sao Korea trước SEA\n\n- Hàn Quốc có **enterprise adoption AI cao** (Samsung, SK, Naver đều đang build LLM riêng nhưng vẫn dùng Claude cho coding/research)\n- Government push: Korea có chính sách AI sovereign rõ ràng + ngân sách\n- Korean-language reasoning của Claude đang vượt GPT-4 trong nhiều benchmark\n\n## Ý nghĩa cho dev VN\n\n1. **Pricing & latency**: Văn phòng Seoul thường đi kèm region API endpoint (như Tokyo region đã có). VN gọi API qua Seoul sẽ nhanh hơn US East ~150ms.\n2. **Support tiếng Việt cải thiện**: Anthropic mở rộng Á → ưu tiên fine-tune cho ngôn ngữ Á. Claude 4.7 đã rất ổn tiếng Việt, sắp tới có thể tốt hơn nữa.\n3. **SEA next**: Nếu Seoul thành công, Singapore/HK có thể là next. Đến lúc đó VN dev sẽ có Anthropic team gần để escalate.\n\n## So với OpenAI\n\nOpenAI đã có Tokyo office từ 2024 nhưng Korea/SEA chưa rõ. Anthropic đang chiếm thị phần enterprise Á trước OpenAI ở Korea — đáng quan tâm cho ai đang chọn vendor.\n\n## Action cho anh\n- Theo dõi xem có Seoul region API endpoint không (anthropic docs)\n- Nếu có, tele-claude-bridge nên config request route qua Seoul region để giảm latency"
+        },
+        {
+          "title": "LocateAnything: Fast and High-Quality Vision-Language Grounding with Parallel Box Decoding",
+          "source": "HF",
+          "source_url": "https://huggingface.co/papers/2605.27365",
+          "summary": "NVIDIA paper về vision-language grounding với parallel box decoding — fast + accurate object localization.",
+          "why_care": "Nếu app mobile cần feature 'point to object in image' (AR, shopping, accessibility) thì model này đáng eval.",
+          "analysis": "## Vision-Language Grounding\n\nLocateAnything là paper của NVIDIA giải bài toán 'vision-language grounding' — input ảnh + câu mô tả ('the red cup behind the laptop'), output bounding box chính xác. Cốt lõi là **parallel box decoding**: thay vì decode tuần tự từng box, model decode song song → nhanh hơn 5-10x.\n\n## Vì sao đáng chú ý\n\n- Latency thấp đủ cho real-time mobile (~50ms/frame)\n- Open weights (theo HF page) → có thể self-host\n- Beat GroundingDINO/OWL-ViT trên benchmark RefCOCO\n\n## Use case mobile\n\nNếu anh build app Flutter có camera + AI:\n- **AR shopping**: 'show me the green dress' → highlight trong frame\n- **Accessibility**: 'where is the exit sign?' cho người khiếm thị\n- **Visual search**: snap ảnh kệ hàng → tìm sản phẩm cụ thể\n\n## Triển khai\n\nModel size khoảng vài trăm MB → run on-device khó nhưng OK cho server-side. Flutter app có thể call API. Hoặc dùng Core ML conversion cho iOS native nếu cần real-time.\n\n## Action cho anh\n- Bookmark paper, chưa cần dùng ngay\n- Nếu có ý tưởng product cần 'point to object', đây là baseline model nên thử trước"
+        },
+        {
+          "title": "EvalVerse: Pipeline-Aware and Expert-Calibrated Benchmarking for Professional Cinematic Video Generation",
+          "source": "HF",
+          "source_url": "https://huggingface.co/papers/2605.23271",
+          "summary": "Tencent ra benchmark mới cho video generation models, expert-calibrated cho cinematic quality.",
+          "why_care": "Video gen đang gần production-ready. Benchmark đáng tin sẽ giúp chọn model.",
+          "analysis": ""
+        },
+        {
+          "title": "SpatialBench: Is Your Spatial Foundation Model an All-Round Player?",
+          "source": "HF",
+          "source_url": "https://huggingface.co/papers/2605.27367",
+          "summary": "Benchmark đánh giá spatial reasoning của foundation models.",
+          "why_care": "Spatial reasoning yếu là điểm chết của LLM hiện tại — benchmark này sẽ định hình research roadmap.",
+          "analysis": ""
+        }
+      ]
+    },
+    {
+      "id": "startup-industry",
+      "icon": "🌐",
+      "title": "Startup & Industry",
+      "subtitle": "TechCrunch · Cognition · Remote · Triomics",
+      "items": [
+        {
+          "title": "AI coding startup Cognition raises $1B at $25B pre-money valuation",
+          "source": "TechCrunch",
+          "source_url": "https://techcrunch.com/2026/05/27/ai-coding-startup-cognition-raises-1b-at-25b-pre-money-valuation/",
+          "summary": "Cognition (maker of Devin) huy động $1B ở định giá pre-money $25B — round AI coding tool lớn nhất 2026.",
+          "why_care": "Confirm AI coding là vertical hot nhất. Anh build trên platform này phải để ý competitive landscape.",
+          "analysis": "## Round khủng trong AI coding\n\nCognition AI (công ty đứng sau Devin) vừa close $1B funding ở pre-money $25B (post-money ~$26B). Đây là một trong các round AI coding lớn nhất kể từ Anthropic Series E. Lead investor chưa được công bố cụ thể nhưng nhiều khả năng là Founders Fund / 8VC / hoặc sovereign wealth fund.\n\n## Bối cảnh competitive\n\nAI coding đang chia thành 3 nhóm rõ:\n- **Tier 1 — Platform**: Anthropic (Claude Code), GitHub (Copilot), Cursor (~$10B)\n- **Tier 2 — Autonomous agent**: Cognition/Devin, Magic, Poolside\n- **Tier 3 — Vertical**: Codeium (now Windsurf), Continue, Aider\n\nCognition đặt cược vào 'autonomous SWE' — Devin tự take ticket → code → test → PR. Cách này khác Claude Code (pair với human) — nếu thành công sẽ disrupt cả tier 1.\n\n## Ý nghĩa cho anh\n\nVới tele-claude-bridge của anh — build trên Claude API + Claude Code skills:\n1. **Không lo Claude bị bỏ rơi**: $1B vào Cognition = competitive pressure → Anthropic phải tiếp tục đầu tư Claude Code aggressive\n2. **Cơ hội arbitrage**: Tier 2 (Devin) đắt ($500/mo). Nếu anh build wrapper Telegram → Claude Code workflow rẻ hơn nhiều cho VN dev → ngách thật\n3. **Đầu tư**: Anh không invest được trực tiếp (private), nhưng các secondary listing (vd Hatch, EquityZen) có thể mở slot. Hoặc theo dõi public proxy như MSFT (Copilot), GOOGL (Gemini)\n\n## Risk\n\nDevin demo 2024 bị criticism là cherry-pick. Nếu $25B valuation không match retention thật, có thể là bubble local. Theo dõi ARR public hằng quý.\n\n## Action cho anh\n- Đăng ký dùng thử Devin 1 tuần để hiểu UX của 'fully autonomous SWE' — feed insight cho tele-claude-bridge UX\n- Xem xét positioning: anh nên là 'human-in-loop Claude wrapper' (đối lập Devin) hay 'lite autonomous agent' (cạnh tranh)"
+        },
+        {
+          "title": "Payroll startup Remote says it grew revenue 50% per employee without adding headcount",
+          "source": "TechCrunch",
+          "source_url": "https://techcrunch.com/2026/05/27/payroll-startup-remote-says-it-grew-revenue-50-per-employee-without-adding-headcount/",
+          "summary": "Remote (payroll platform) tăng revenue/employee 50% không thêm nhân sự — case study AI productivity.",
+          "why_care": "Số liệu thực về AI productivity ở scale company — đáng đọc nếu anh quan tâm efficient scaling.",
+          "analysis": ""
+        },
+        {
+          "title": "Triomics nabs $22M to bring oncology-specific AI to cancer centers",
+          "source": "TechCrunch",
+          "source_url": "https://techcrunch.com/2026/05/27/triomics-nabs-22m-to-bring-oncology-specific-ai-to-cancer-centers/",
+          "summary": "Healthcare AI startup huy động $22M cho vertical oncology AI tại cancer centers.",
+          "why_care": "Pattern vertical AI startup: pick narrow domain + sell to enterprise = $20M+ round dễ hơn horizontal.",
+          "analysis": ""
+        }
+      ]
+    }
+  ]
+}
