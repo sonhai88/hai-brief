@@ -1,6 +1,15 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
+export type Rating = {
+  /** 1-5: bài có hay/đáng đọc không (storytelling, depth, novelty) */
+  hay: number;
+  /** 1-5: dev VN/Flutter/mobile có dùng được ngay không */
+  apply: number;
+  /** 1-5: tiềm năng "bùng nổ" 6-12 tháng tới — capital, ecosystem, mainstream */
+  bunno: number;
+};
+
 export type BriefItem = {
   title: string;
   source: string;
@@ -9,7 +18,23 @@ export type BriefItem = {
   why_care?: string;
   /** Markdown analysis (≈300 words VN) — dịch + giải thích context + ý nghĩa cho dev. Optional. */
   analysis?: string;
+  /** Đánh giá 3 trục (1-5 mỗi trục). Optional cho item cũ. */
+  rating?: Rating;
 };
+
+export function ratingScore(r?: Rating): number {
+  if (!r) return 0;
+  return (r.hay + r.apply + r.bunno) / 3;
+}
+
+export function ratingHighlights(r?: Rating): Array<{ key: keyof Rating; label: string; icon: string }> {
+  if (!r) return [];
+  const out: Array<{ key: keyof Rating; label: string; icon: string }> = [];
+  if (r.bunno >= 4) out.push({ key: "bunno", label: "Bùng nổ", icon: "🔥" });
+  if (r.apply >= 4) out.push({ key: "apply", label: "Áp dụng được", icon: "🛠️" });
+  if (r.hay >= 4) out.push({ key: "hay", label: "Hay", icon: "💡" });
+  return out;
+}
 
 export type BriefSection = {
   id: string;

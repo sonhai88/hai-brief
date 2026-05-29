@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Prose } from "@/components/Prose";
+import { RatingDashboard } from "@/components/Rating";
 import {
   getBriefItem,
   listBriefDates,
@@ -118,6 +119,13 @@ export default async function ItemPage({
             </p>
           )}
         </div>
+
+        {/* Rating dashboard */}
+        {item.rating && (
+          <div className="mt-8">
+            <RatingDashboard rating={item.rating} />
+          </div>
+        )}
 
         {/* Analysis */}
         {item.analysis ? (

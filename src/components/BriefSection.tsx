@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { BriefSection as TSection } from "@/lib/briefs";
 import { hostnameOf, slugify } from "@/lib/briefs";
+import { RatingBadges } from "@/components/Rating";
 
 export function BriefSection({ section, date }: { section: TSection; date: string }) {
   return (
@@ -55,6 +56,8 @@ export function BriefSection({ section, date }: { section: TSection; date: strin
               >
                 {hostnameOf(item.source_url)} ↗
               </a>
+
+              <RatingBadges rating={item.rating} />
 
               <p className="mt-4 font-serif text-[18px] leading-[1.75] text-stone-800">
                 {item.summary}
