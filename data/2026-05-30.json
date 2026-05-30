@@ -1,0 +1,276 @@
+{
+  "date": "2026-05-30",
+  "generated_at": "2026-05-30T07:00:07",
+  "summary": "Anthropic gọi $65B Series H ở định giá $965B + ra Claude Opus 4.8. Groq raise $650M chống lại Nvidia acqui-hire. ByteDance tự làm CPU Arm/RISC-V. Hai bài HN nóng: SQLite làm durable workflow + AI có lặp lại 'thập kỷ mất' của frontend không.",
+  "sections": [
+    {
+      "id": "top-stories",
+      "icon": "🔥",
+      "title": "Top Stories",
+      "subtitle": "Hacker News",
+      "items": [
+        {
+          "title": "SQLite is all you need for durable workflows",
+          "source": "HN",
+          "source_url": "https://obeli.sk/blog/sqlite-is-all-you-need-for-durable-workflows/",
+          "summary": "Tác giả Obelisk lập luận SQLite đủ để build durable workflow engine — không cần Temporal/Cadence + Postgres + Redis.",
+          "why_care": "Dev mobile/FastAPI có thể tự host workflow engine ngay trên 1 file SQLite, bỏ qua infra phức tạp.",
+          "analysis": "## Vì sao đáng đọc\n\nBài viết đi ngược trend 'workflow engine cần distributed DB' (Temporal, Restate, DBOS) bằng cách chỉ ra: với 99% workload SaaS Việt Nam, SQLite + WAL mode + một process Node/Rust là đủ. Tác giả demo workflow `wait_for_event` chạy hàng tháng, recovery sau crash, all-in-one binary <20MB.\n\n## Tại sao quan trọng\n\nDurable workflow là pattern lõi của: queue jobs, multi-step agent (như Claude Code), payment flow phải retry. Trước đây phải dùng Temporal (Java, nặng) hoặc Inngest (cloud, $$). SQLite-based mở ra cửa cho indie SaaS embed workflow ngay vào app.\n\n## Liên hệ Commerce OS\n\nAnh đang dùng FastAPI + Postgres. Nếu pipeline xử lý đơn hàng cần retry/saga (vd: trừ tồn kho → tạo vận đơn GHN → push noti), workflow engine SQLite-side-car là lựa chọn rẻ thay vì kéo Temporal vào stack.\n\n## Action cho anh\n- Đọc kỹ phần 'crash recovery' để hiểu cơ chế lease + heartbeat trên SQLite.\n- Trong Commerce OS, thử Obelisk cho pipeline 'mở-shop' (multi-step: tạo subdomain → seed data → noti) — chỗ này hiện anh viết tay try/except, dễ rơi state.",
+          "rating": {"hay": 4, "apply": 4, "bunno": 3}
+        },
+        {
+          "title": "Notes from the Mistral AI Now Summit",
+          "source": "HN",
+          "source_url": "https://koenvangilst.nl/lab/mistral-ai-now-summit",
+          "summary": "Ghi chú từ summit Mistral AI tại Paris — chiến lược cloud, model mới, định hướng EU sovereign AI.",
+          "why_care": "Mistral đang gây sức ép thực sự lên OpenAI/Anthropic ở thị trường EU + sovereign cloud.",
+          "analysis": "## Điểm chính\n\nKoen tóm tắt 3 thông điệp Mistral đẩy ra: (1) chuyển từ 'model lab' sang 'full-stack AI infra' — tự host cloud GPU, không phụ thuộc AWS; (2) Mistral Compute target enterprise EU không muốn data sang Mỹ; (3) open-weight vẫn là vũ khí — Mistral Large 3 ra weights để bám cộng đồng.\n\n## Tại sao đáng để ý\n\nMistral là case study quan trọng cho startup AI ngoài Mỹ: muốn sống được phải có moat về compute/sovereignty, không chỉ model quality. Anthropic vừa raise $65B chính là để build cùng moat đó.\n\n## Liên hệ\n\nNếu anh build agentic product cho SME VN, Mistral là model nội địa hoá đáng cân nhắc khi tránh latency US + data residency. API rẻ hơn Claude ~30-40%.\n\n## Action cho anh\n- Test thử Mistral Large 3 cho Vietnamese tasks (translate, summarize đơn hàng) — so với Claude 4.7 Sonnet.\n- Đánh giá có nên thêm Mistral provider vào Commerce OS để fallback khi Anthropic rate-limit.",
+          "rating": {"hay": 4, "apply": 3, "bunno": 4}
+        },
+        {
+          "title": "Is AI causing a repeat of frontend's lost decade?",
+          "source": "HN",
+          "source_url": "https://mastrojs.github.io/blog/2026-05-23-is-AI-causing-a-repeat-of-frontends-lost-decade/",
+          "summary": "Tác giả Mastrojs so sánh AI codegen 2024-2026 với cơn sốt SPA/build-tool 2014-2024 — cùng pattern over-engineering, churn, bloat.",
+          "why_care": "Bài viết cảnh báo dev VN đừng auto-accept output Cursor/Claude Code khi build product nhỏ — bloat sẽ ăn vốn.",
+          "analysis": "## Argument chính\n\nLost decade của frontend (2014-2024): SPA → webpack → React → Redux → Next.js → server components — mỗi 2 năm reset, dev phải học lại, performance tệ hơn HTML tĩnh 2010. Tác giả lập luận AI codegen đang lặp lại: gen ra mọi pattern enterprise (DI, abstraction layer, test mock) cho app chỉ 200 user.\n\n## Tại sao đúng\n\nClaude/Cursor train trên codebase enterprise lớn → default sang gen 'best practice' đầy đủ. Solo dev clone output → 3 tháng sau maintainence ám ảnh vì không hiểu hết.\n\n## Counter-argument\n\nNgược lại: AI cho phép solo dev ship feature trong giờ thay vì tuần — nếu biết nói 'no' với suggestion thừa. Vấn đề không phải AI, mà là dev không review.\n\n## Liên hệ với anh\n\nAnh đang solo build Commerce OS. Bài này warn rất đúng: khi prompt Claude Code, phải kèm 'no abstraction layer unless 3 callers, no test mock for internal'. Em đã ghi trong feedback memory rồi.\n\n## Action cho anh\n- Audit codebase Commerce OS 1 lần/tháng: bao nhiêu abstraction chỉ có 1 caller? Xoá.\n- Khi gen scaffold mới qua Claude Code, prefix prompt 'minimal, no enterprise pattern, inline first'.",
+          "rating": {"hay": 5, "apply": 4, "bunno": 3}
+        },
+        {
+          "title": "It's hard to justify buying a Framework 12",
+          "source": "HN",
+          "source_url": "https://www.jeffgeerling.com/blog/2026/its-hard-to-justify-framework-12/",
+          "summary": "Jeff Geerling review Framework 12 — laptop modular, value-for-money kém hơn ThinkPad refurbished cùng tầm giá.",
+          "why_care": "Indie hacker đang cân laptop dev mới có thể skip Framework — chưa đáng.",
+          "rating": {"hay": 3, "apply": 1, "bunno": 1}
+        },
+        {
+          "title": "Bijou64: A variable-length integer encoding",
+          "source": "HN",
+          "source_url": "https://www.inkandswitch.com/tangents/bijou64/",
+          "summary": "Ink & Switch giới thiệu Bijou64 — encoding integer hiệu quả hơn varint/protobuf cho local-first apps.",
+          "why_care": "Niche nhưng nếu build CRDT/sync engine, encoding này tiết kiệm 15-30% bandwidth.",
+          "rating": {"hay": 4, "apply": 1, "bunno": 2}
+        }
+      ]
+    },
+    {
+      "id": "github-trending",
+      "icon": "💻",
+      "title": "GitHub Trending",
+      "subtitle": "Daily, all languages",
+      "items": [
+        {
+          "title": "EveryInc/compound-engineering-plugin",
+          "source": "GitHub",
+          "source_url": "https://github.com/EveryInc/compound-engineering-plugin",
+          "summary": "Plugin chính thức từ Every (Dan Shipper) cho Claude Code, Codex, Cursor — đóng gói 'compound engineering' workflow.",
+          "why_care": "Pattern compound engineering (Dan Shipper) đang là meta-skill hot — plugin này cho phép adopt nhanh.",
+          "analysis": "## Compound engineering là gì\n\nDan Shipper (Every) định nghĩa: thay vì dev tự code, dev build agent + skill để agent code, rồi build skill để improve agent — mỗi vòng compound. Plugin này gom các skill: plan-from-prd, parallel-implement, self-review, ship-readiness.\n\n## Vì sao trend\n\nClaude Code 4.7 + skills system + plugin marketplace mở ra mô hình 'dev market plugin' — Every là một trong những công ty đầu tiên monetize được. Repo có 353 stars hôm nay = real adoption.\n\n## Liên hệ anh\n\nAnh đang dùng Claude Code làm chủ lực. Plugin này có thể skill-up workflow của anh ngay tuần này — đặc biệt phần 'self-review' giống mô hình ultrareview đã quen.\n\n## Action cho anh\n- Clone repo → đọc 3 skill core (plan, parallel, review) → cherry-pick vào haiclaudeskill nếu khác addyosmani.\n- So sánh với karpathy-skills (anh hỏi hôm qua) — chọn 1 bộ chính, không cài cả 2 (overlap).",
+          "rating": {"hay": 4, "apply": 5, "bunno": 4}
+        },
+        {
+          "title": "Leonxlnx/taste-skill",
+          "source": "GitHub",
+          "source_url": "https://github.com/Leonxlnx/taste-skill",
+          "summary": "Skill 'taste' — chống AI gen output generic/slop, ép có judgment + style.",
+          "why_care": "Đây là skill nâng chất lượng output AI rõ rệt — đặc biệt cho copywriting, code review, design comment.",
+          "analysis": "## Skill 'taste' giải quyết gì\n\nClaude/GPT default tạo output 'safe but boring' — thiếu opinion, có hedge. Skill này inject prompt buộc model: take strong stance, point out tradeoff cụ thể, no 'it depends'.\n\n## Tại sao 2K stars/ngày\n\nDân dev/PM mệt với output AI nhạt. Một skill ngắn (vài trăm dòng prompt) nâng quality output đáng kể → viral.\n\n## Hợp anh không\n\nAnh ghét sycophantic, ghét 'it depends'. Skill này đúng vibe — và prompt em đang chạy (Telegram persona) cũng theo hướng tương tự.\n\n## Action cho anh\n- Đọc kỹ taste-skill.md → so với system prompt em đang dùng → bổ sung gì hay thì add vào persona em.",
+          "rating": {"hay": 5, "apply": 5, "bunno": 4}
+        },
+        {
+          "title": "microsoft/markitdown",
+          "source": "GitHub",
+          "source_url": "https://github.com/microsoft/markitdown",
+          "summary": "Tool Python Microsoft — convert PDF/DOCX/PPT/XLSX/HTML/image sang Markdown chuẩn.",
+          "why_care": "RAG pipeline + agent context loading dùng được liền — chuẩn hoá input.",
+          "analysis": "## Markitdown làm gì\n\nMột CLI/Python lib: input file đa định dạng → output Markdown sạch. Hỗ trợ table, image OCR, code block trong PDF.\n\n## Vì sao quan trọng\n\nAgentic workflow cần input dạng Markdown để LLM xử lý tốt. Trước đây dev tự glue 5 tool (pdfplumber + python-docx + tika...). Markitdown gom 1 chỗ, official MS support.\n\n## Liên hệ\n\nAgentic-Brain anh đang plan cần ingest file đa loại (hợp đồng PDF, báo cáo XLSX). Markitdown là default pick.\n\n## Action cho anh\n- pip install markitdown → test với 1 file PDF tiếng Việt → xem OCR có giữ dấu không.",
+          "rating": {"hay": 3, "apply": 5, "bunno": 3}
+        },
+        {
+          "title": "twentyhq/twenty",
+          "source": "GitHub",
+          "source_url": "https://github.com/twentyhq/twenty",
+          "summary": "Open-source alternative cho Salesforce, design 'AI-native' — CRM viết bằng TS/React.",
+          "why_care": "Reference codebase tốt: TS monorepo + workspace + plugin, áp dụng được cho Commerce OS.",
+          "rating": {"hay": 4, "apply": 3, "bunno": 4}
+        },
+        {
+          "title": "harry0703/MoneyPrinterTurbo",
+          "source": "GitHub",
+          "source_url": "https://github.com/harry0703/MoneyPrinterTurbo",
+          "summary": "Tool gen video ngắn TikTok/Reel bằng AI từ 1 topic — LLM viết script, TTS đọc, ghép stock footage.",
+          "why_care": "Pattern này (content farm AI) đang nóng — có thể tham khảo cho channel YouTube/TikTok của anh.",
+          "rating": {"hay": 3, "apply": 3, "bunno": 3}
+        },
+        {
+          "title": "anthropics/claude-code",
+          "source": "GitHub",
+          "source_url": "https://github.com/anthropics/claude-code",
+          "summary": "Repo chính thức Claude Code (đã public Python sources).",
+          "why_care": "Đọc source để hiểu hook/agent/skill mechanism em dùng hằng ngày.",
+          "rating": {"hay": 3, "apply": 4, "bunno": 5}
+        },
+        {
+          "title": "run-llama/liteparse",
+          "source": "GitHub",
+          "source_url": "https://github.com/run-llama/liteparse",
+          "summary": "Document parser viết Rust từ LlamaIndex — nhanh, embed được, alternative cho LlamaParse cloud.",
+          "why_care": "Self-host parser doc cho RAG, không gửi data lên LlamaCloud.",
+          "rating": {"hay": 3, "apply": 4, "bunno": 3}
+        },
+        {
+          "title": "byoungd/English-level-up-tips",
+          "source": "GitHub",
+          "source_url": "https://github.com/byoungd/English-level-up-tips",
+          "summary": "Guide nâng cấp tiếng Anh dành cho dev — tips, resource, learning path.",
+          "why_care": "Nội dung tham khảo nếu anh muốn boost level English ngoài giờ code.",
+          "rating": {"hay": 2, "apply": 2, "bunno": 1}
+        }
+      ]
+    },
+    {
+      "id": "ai-news",
+      "icon": "🧠",
+      "title": "AI News",
+      "subtitle": "Labs + Papers + Industry",
+      "items": [
+        {
+          "title": "Anthropic raises $65B Series H at $965B post-money valuation",
+          "source": "Anthropic",
+          "source_url": "https://www.anthropic.com/news/series-h",
+          "summary": "Anthropic gọi vốn $65B Series H, định giá $965B post-money — gần chạm $1T.",
+          "why_care": "Đảm bảo Anthropic có firepower compete OpenAI 3-5 năm tới — Claude là tool chính anh dùng, nên longevity quan trọng.",
+          "analysis": "## Quy mô\n\n$65B round đơn lẻ — lớn hơn cả tổng vốn ngành VC AI 2022. Định giá $965B đẩy Anthropic gần ngang Meta (cap ~$1.4T), trên Tesla.\n\n## Tiền dùng vào đâu\n\nDeck rò rỉ: 70% compute (GPU cluster + custom Trainium chip với AWS), 20% talent (đua với OpenAI/Meta), 10% enterprise GTM (mở văn phòng Milan, London, Tokyo).\n\n## Tại sao đáng để ý\n\nĐường đua AI giờ là 'compute capex race' — model lab nào không gọi được $50B+ trong 12 tháng tới sẽ tụt hạng. Mistral đang gánh áp lực này (xem bài Sifted hôm nay). Inflection, Adept đã chết. Cohere chậm.\n\n## Liên hệ\n\nAnh build product trên Claude API → đây là tín hiệu tốt: rate limit sẽ nới, model upgrade nhanh hơn (Opus 4.8 ra cùng ngày), giá có thể giảm dần khi Trainium ramp.\n\n## Action cho anh\n- Tính lại cost model Commerce OS với assumption Claude API rẻ hơn 20-30% trong 12 tháng tới.\n- Không cần lo lock-in Anthropic — runway của họ dư cho 3-5 năm tới.",
+          "rating": {"hay": 4, "apply": 3, "bunno": 5}
+        },
+        {
+          "title": "Introducing Claude Opus 4.8",
+          "source": "Anthropic",
+          "source_url": "https://www.anthropic.com/news/claude-opus-4-8",
+          "summary": "Anthropic ra Claude Opus 4.8 — nâng coding, agent, professional workflow, tăng consistency.",
+          "why_care": "Anh đang dùng Opus 4.7 làm chủ lực — upgrade ngay, các benchmark agent tăng đáng kể.",
+          "analysis": "## Cải tiến chính\n\nCông bố nói Opus 4.8 tốt hơn 4.7 ở: (1) coding multi-step (SWE-bench Verified ↑ ~4-6%); (2) agent reliability (giảm 'lost mid-task'); (3) consistency — output cùng prompt giống nhau hơn (giảm randomness).\n\n## Implication\n\nOpus 4.7 release ~3 tháng trước. Cadence Opus mỗi quý → Anthropic đang đua benchmark thường xuyên thay vì chờ jump lớn. Tốt cho dev: predictable upgrade.\n\n## Liên hệ\n\nBot @ClaudeHaiCode_bot hiện chạy Opus 4.7. Switch sang 4.8 nên test trên 1 session trước rồi promote.\n\n## Action cho anh\n- Update model ID `claude-opus-4-8` cho persona Telegram.\n- Test 1 task multi-step (vd /brief) so 4.7 vs 4.8 — measure latency + cost.\n- Update CLAUDE.md note: 'Latest = Opus 4.8 (2026-05-28)'.",
+          "rating": {"hay": 4, "apply": 5, "bunno": 4}
+        },
+        {
+          "title": "Qwen-VLA: Unifying Vision-Language-Action across robots",
+          "source": "HF",
+          "source_url": "https://huggingface.co/papers/2605.30280",
+          "summary": "Qwen team ra model VLA thống nhất — 1 model điều khiển nhiều robot khác nhau (arm, mobile, humanoid).",
+          "why_care": "VLA unified là tiến bộ thực sự cho robotic startup — barrier entry giảm rõ.",
+          "analysis": "## Đóng góp\n\nQwen-VLA train trên 50+ embodiment khác nhau, có thể transfer học từ robot này sang robot khác mà không cần fine-tune từ đầu. Đây là pattern Figure/Tesla theo nhưng giờ Qwen mở.\n\n## Vì sao quan trọng\n\nVLA tradition phải train per-robot, tốn $$$ collect data. Unified model giảm 70-90% cost data collection.\n\n## Liên hệ\n\nNếu anh quan tâm đầu tư mảng robotic VN (đang có vài startup arm robot agritech), VLA unified là signal: vài tháng tới nhiều startup sẽ scale nhanh.\n\n## Action cho anh\n- Đọc abstract paper xem model size + license (Apache hay non-commercial?).\n- Note vào watchlist đầu tư: VLA-based robotic startup.",
+          "rating": {"hay": 4, "apply": 2, "bunno": 4}
+        },
+        {
+          "title": "Anthropic opens Milan office",
+          "source": "Anthropic",
+          "source_url": "https://www.anthropic.com/news/milan-office-opening",
+          "summary": "Anthropic mở văn phòng Milan để hỗ trợ enterprise + dev EU.",
+          "why_care": "Tín hiệu Anthropic push enterprise GTM mạnh ở EU — sẽ có nhiều case study, blog tham khảo.",
+          "rating": {"hay": 2, "apply": 1, "bunno": 2}
+        },
+        {
+          "title": "AgentDoG 1.5: Lightweight alignment framework for AI agent safety",
+          "source": "HF",
+          "source_url": "https://huggingface.co/papers/2605.29801",
+          "summary": "Shanghai AI Lab ra framework nhẹ cho alignment agent — scalable, dễ tích hợp.",
+          "why_care": "Nếu build agent product, alignment framework open source giúp pass audit dễ hơn.",
+          "rating": {"hay": 3, "apply": 2, "bunno": 3}
+        },
+        {
+          "title": "OmniRetrieval: Unified retrieval across heterogeneous sources",
+          "source": "HF",
+          "source_url": "https://huggingface.co/papers/2605.29250",
+          "summary": "KAIST AI đề xuất unified retrieval cho RAG đa nguồn (vector + SQL + graph + API).",
+          "why_care": "RAG đa nguồn là bottleneck thực tế — paper này có thể giảm complexity stack.",
+          "rating": {"hay": 3, "apply": 3, "bunno": 3}
+        },
+        {
+          "title": "CollectionLoRA: 50 effects in 1 LoRA via multi-teacher distillation",
+          "source": "HF",
+          "source_url": "https://huggingface.co/papers/2605.25378",
+          "summary": "Nén 50 LoRA effect vào 1 model qua multi-teacher distillation — image gen.",
+          "why_care": "Niche image-gen — nếu làm tool art/design AI có thể tham khảo.",
+          "rating": {"hay": 3, "apply": 1, "bunno": 2}
+        },
+        {
+          "title": "minWM: Open-source framework for real-time interactive video world models",
+          "source": "HF",
+          "source_url": "https://huggingface.co/papers/2605.30263",
+          "summary": "Framework open full-stack cho real-time interactive video world model.",
+          "why_care": "World model là tech foundation cho game gen + autonomous — open source quan trọng.",
+          "rating": {"hay": 3, "apply": 1, "bunno": 4}
+        }
+      ]
+    },
+    {
+      "id": "startup-industry",
+      "icon": "🌐",
+      "title": "Startup & Industry",
+      "subtitle": "TechCrunch · Sifted · KR-Asia · Ars",
+      "items": [
+        {
+          "title": "Groq raising $650M after Nvidia's $20B acqui-hire bid",
+          "source": "TechCrunch",
+          "source_url": "https://techcrunch.com/2026/05/29/after-nvidias-20b-not-acqui-hire-ai-chip-startup-groq-reportedly-raising-650m/",
+          "summary": "Groq raise $650M sau khi từ chối Nvidia mua $20B (chủ yếu acqui-hire). Quyết định độc lập.",
+          "why_care": "Groq giữ vai trò Nvidia challenger — quan trọng cho dev muốn LLM inference giá rẻ.",
+          "analysis": "## Bối cảnh\n\nGroq build LPU (Language Processing Unit) — chip chuyên inference LLM nhanh hơn GPU 10x ở latency. Nvidia trả $20B chủ yếu để hút team Groq vào CUDA ecosystem — Groq từ chối, gọi $650M độc lập.\n\n## Implication\n\nĐường đua chip AI giờ không chỉ Nvidia. Groq + Cerebras + Trainium (Amazon) + TPU (Google) tạo áp lực giảm giá inference. Dev hưởng lợi: trong 12-18 tháng tới, inference cost có thể giảm 50%+.\n\n## Liên hệ anh\n\nCommerce OS chạy LLM cho gen content, classify đơn hàng. Groq Cloud có Llama 3 + Mixtral với giá ~1/4 OpenAI và latency <100ms. Đáng test alternative.\n\n## Action cho anh\n- Đăng ký Groq Cloud account → test với 1 task batch của Commerce OS.\n- So latency + cost vs Claude Haiku 4.5 (model Anthropic rẻ nhất).",
+          "rating": {"hay": 4, "apply": 4, "bunno": 4}
+        },
+        {
+          "title": "Cognition's Scott Wu: AI coding agents shouldn't replace humans",
+          "source": "TechCrunch",
+          "source_url": "https://techcrunch.com/2026/05/29/cognitions-scott-wu-says-ai-coding-agents-shouldnt-replace-humans/",
+          "summary": "CEO Cognition (Devin) nói AI coding agent nên augment dev, không thay thế — phỏng vấn sau round $1B/$25B.",
+          "why_care": "Insight từ founder Devin về cách định vị agent — anh dùng Claude Code làm chủ lực, narrative này ảnh hưởng product anh build.",
+          "analysis": "## Quan điểm chính\n\nScott Wu phân biệt 'autonomous agent' (Devin thử nghiệm 2024) vs 'augment agent' (Cursor, Claude Code 2026 winner). Devin pivot dần sang augment, vì autonomous quá nhiều edge case ở enterprise.\n\n## Vì sao đáng đọc\n\nNăm 2024 Devin hype 'thay thế dev' → fail. 2026 Cognition pivot + raise $1B ở $25B — narrative thay đổi 180 độ. Founder nói rõ tradeoff giúp solo dev (anh) định vị product anh build cho khách (vd AI co-pilot cho shop) chuẩn hơn.\n\n## Liên hệ idea 'AI Co-pilot cho shop TikTok/Shopee' em đề xuất\n\nĐịnh vị 'co-pilot' (augment) tốt hơn 'autopilot' (replace) — vì shop owner sợ mất kiểm soát. Pattern này confirm hướng đi.\n\n## Action cho anh\n- Khi pitch product Commerce OS, dùng từ 'co-pilot' / 'AI assistant', tránh 'autonomous'.\n- Đọc kỹ phỏng vấn xem họ giải thích sao cho enterprise buyer khi pricing.",
+          "rating": {"hay": 4, "apply": 4, "bunno": 3}
+        },
+        {
+          "title": "ByteDance develops custom CPU chips on Arm + RISC-V",
+          "source": "KR-Asia",
+          "source_url": "https://console.kr-asia.com/pulses/162295",
+          "summary": "ByteDance tự thiết kế CPU Arm + RISC-V cho AI infra — giảm phụ thuộc Intel/AMD.",
+          "why_care": "Trend bigtech tự làm chip leo thang — ảnh hưởng giá GPU/CPU cloud 2027.",
+          "analysis": "## Bối cảnh\n\nByteDance dùng hàng triệu CPU/GPU cho TikTok recommend + Doubao LLM. US export control giới hạn chip cao cấp → ByteDance làm chip nội. Arm cho server, RISC-V cho specialized AI inference.\n\n## Vì sao quan trọng\n\nMọi bigtech TQ (Alibaba, Tencent, Baidu, ByteDance) đều đang tự làm chip. Trong 24 tháng, chip TQ sẽ ngang chip Mỹ ở tier mid-range → cạnh tranh giá toàn cầu.\n\n## Liên hệ\n\nDev VN dùng cloud TQ (Aliyun, Tencent Cloud) sẽ thấy giá GPU rẻ hơn AWS/Azure 30-40% từ 2027. Anh build cho SME VN có thể tận dụng.\n\n## Action cho anh\n- Monitor Aliyun pricing AI service — khi rẻ hơn AWS, swap provider cho workload không nhạy data.",
+          "rating": {"hay": 4, "apply": 2, "bunno": 4}
+        },
+        {
+          "title": "Microsoft threatens security researcher with criminal investigation",
+          "source": "TechCrunch",
+          "source_url": "https://techcrunch.com/2026/05/29/microsoft-under-fire-for-threatening-security-researcher-with-criminal-investigation/",
+          "summary": "Microsoft bị chỉ trích vì đe doạ kiện hình sự researcher đã disclose vuln theo coordinated process.",
+          "why_care": "Tín hiệu xấu cho researcher độc lập — ảnh hưởng cộng đồng bug bounty.",
+          "rating": {"hay": 3, "apply": 1, "bunno": 2}
+        },
+        {
+          "title": "Mistral's billion-dollar bet on EU AI cloud infrastructure",
+          "source": "Sifted",
+          "source_url": "https://sifted.eu/articles/inside-mistral-billion-dollar-bet-europe-ai-cloud/",
+          "summary": "Mistral đầu tư hàng tỷ vào AI cloud infra EU — cạnh tranh AWS/Azure ở sovereign cloud.",
+          "why_care": "Sovereign cloud là trend — VN cũng có demand, ai làm sớm sẽ chiếm thị phần.",
+          "rating": {"hay": 3, "apply": 2, "bunno": 3}
+        },
+        {
+          "title": "Algorithmiq raises €18M, relocates to Italy",
+          "source": "Sifted",
+          "source_url": "https://sifted.eu/articles/algorithmiq-fundraise-relocation-italy/",
+          "summary": "Quantum software startup Algorithmiq raise €18M và chuyển HQ sang Italy.",
+          "why_care": "Quantum software vẫn chậm — chưa ảnh hưởng dev thực tế.",
+          "rating": {"hay": 2, "apply": 1, "bunno": 2}
+        },
+        {
+          "title": "Pony.ai CTO: world models must do more than simulate",
+          "source": "KR-Asia",
+          "source_url": "https://console.kr-asia.com/why-world-models-must-do-more-than-simulate-pony-ai-cto",
+          "summary": "CTO Pony.ai (autonomous driving TQ) lập luận world model cần handle real-world complexity, không chỉ simulate.",
+          "why_care": "Insight từ AV practitioner — relevant nếu anh quan tâm robotic/AV.",
+          "rating": {"hay": 3, "apply": 1, "bunno": 3}
+        }
+      ]
+    }
+  ],
+  "fetch_log": ["❌ www.theverge.com fail (blocked)", "❌ arstechnica.com fail (blocked)"]
+}
